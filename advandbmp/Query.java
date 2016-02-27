@@ -11,18 +11,30 @@ package advandbmp;
  */
 public class Query {
     private String description;
+    private String defenition;
     private String query;
     private long execTime;
     int opt;
     private String normalQ;
 
-    public Query(String description, String query, long execTime, int opt) // temporary CNSTRUCTOR
+    public Query(String description, String defenition, String query, long execTime, int opt) // temporary CNSTRUCTOR
     {
         this.description = description;
+        this.defenition = defenition;
         this.query = query;
         this.execTime = execTime;
         this.opt = opt;
         this.normalQ = query;
+    }
+
+    public String getDefenition()
+    {
+        return defenition;
+    }
+
+    public void setDefenition(String defenition)
+    {
+        this.defenition = defenition;
     }
     
     
