@@ -159,6 +159,21 @@ public class MyPanel extends JPanel {
                 
             }
         });
+        querySelectionJList.addMouseListener( new MouseAdapter()
+{
+        public void mousePressed(MouseEvent e)
+        {
+            if ( SwingUtilities.isRightMouseButton(e) )
+            {
+                JList list = (JList)e.getSource();
+                int row = list.locationToIndex(e.getPoint());
+                list.setSelectedIndex(row);
+                if(row > 0)
+                JOptionPane.showMessageDialog(null, queryList.get(row-1).getDefenition()); 
+            }
+        }
+
+    });
     }
 
 
