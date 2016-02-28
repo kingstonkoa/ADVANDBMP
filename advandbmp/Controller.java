@@ -65,7 +65,7 @@ public class Controller
 
     public ArrayList<Query> getQueries()
     {
-        Query q1 = new Query("QUERY 1", "The number of people and rooms in the house and if they have calamity/emergency kit and if flood prone per barangay (include location of house)",
+        Query q1 = new Query("QUERY 1", "The number of people and rooms in the house and if they have calamity/emergency kit \n and if flood prone per barangay (include location of house)",
                             "SELECT hnum, street, brgy, mun, nbr, calam1_aid,dp_kit1, dp_kit1_xpiry, dp_kit2, dp_kit2_xpiry, dp_kit3, dp_kit4, dp_kit5, dp_kit6, dp_kit7, dp_kit8, dp_kit9\n" +
                             "FROM hpq_hh\n" +
                             "WHERE calam1 = 1\n" +
@@ -87,7 +87,7 @@ public class Controller
                              "GROUP BY mun, croptype",
                               0,
                               0);
-        Query q4 = new Query("QUERY 4", "Per grade/college school year per location,  how many students use computer with internet?",
+        Query q4 = new Query("QUERY 4", "Per grade/college school year per location,\n how many students use computer with internet?",
                              "SELECT mun, gradel, COUNT(*)\n" +
                              "FROM hpq_hh, hpq_mem\n" +
                              "WHERE hpq_hh.id = hpq_mem.id AND computer != 0 AND internet != 0 \n" +
@@ -101,8 +101,8 @@ public class Controller
                              "GROUP BY mun, hpq_aquani.aquanitype",
                               0,
                               0);
-        Query q6 = new Query("QUERY 6", "Per crop type, how many land area you \n" +
-                             "have and if you were given benefit from Agarian Reform",
+        Query q6 = new Query("QUERY 6", "Per crop type, how many land area you" +
+                             "have and \n if you were given benefit from Agarian Reform",
                              "SELECT hpq_crop.hpq_hh_id, croptype, alp_area, arcdp_mem_refno\n" +
                              "FROM hpq_crop, hpq_alp, hpq_arcdp_mem\n" +
                              "WHERE hpq_crop.hpq_hh_id = hpq_alp.hpq_hh_id AND hpq_alp.hpq_hh_id = hpq_arcdp_mem.hpq_hh_id\n" +

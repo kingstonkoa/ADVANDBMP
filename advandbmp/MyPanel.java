@@ -168,7 +168,6 @@ public class MyPanel extends JPanel {
                 JList list = (JList)e.getSource();
                 int row = list.locationToIndex(e.getPoint());
                 list.setSelectedIndex(row);
-                System.out.println(row);
                 if(row > 0)
                 JOptionPane.showMessageDialog(null, queryList.get(row-1).getDefenition()); 
             }
