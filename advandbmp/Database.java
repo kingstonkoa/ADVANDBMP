@@ -57,5 +57,31 @@ public class Database
     {
         return this.result;
     }
+    
+    public void execPreQuery(String pq)
+    {   
+        try{
+            PreparedStatement statement;
+            statement = connect.getConnection().prepareStatement(pq);
+            statement.execute(pq);
+        }
+        catch(SQLException e) {
+            System.out.println("Error execprequery");
+            e.printStackTrace();
+        }
+    }
+    
+    public void execPostQuery(String pq)
+    {   
+        try{
+            PreparedStatement statement;
+            statement = connect.getConnection().prepareStatement(pq);
+            statement.execute(pq);
+        }
+        catch(SQLException e) {
+            System.out.println("Error execprequery");
+            e.printStackTrace();
+        }
+    }
 
 }

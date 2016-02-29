@@ -17,7 +17,7 @@ public class MyPanel extends JPanel {
     private JButton executeButton;
     private JTextField timeTextField;
     private JButton showResultsButton;
-    private JLabel querySelectionLabel;
+    private JLabel querySelectionLabel,rightclickLabel;
     private JLabel optimizationTypeLabel;
     private JLabel sqlQueryLabel;
     private JButton editButton;
@@ -39,9 +39,9 @@ public class MyPanel extends JPanel {
         querySelectionJListItems[i+1] = queryList.get(i).getDescription();
         }
         optimizationTypeJListItems[0] = "No Optimization";
-        optimizationTypeJListItems[1] = "Optimization 1";
-        optimizationTypeJListItems[2] = "Optimization 2";
-        optimizationTypeJListItems[3] = "Optimization 3";
+        optimizationTypeJListItems[1] = "Redesign of table";
+        optimizationTypeJListItems[2] = "Using Indices";
+        optimizationTypeJListItems[3] = "Properties of Relational Algebra";
         //construct preComponents
         //String[] querySelectionJListItems = {"Custom", "Item 1", "Item 2", "Item 3"};
         //String[] optimizationTypeJListItems = {"Item 1", "Item 2", "Item 3"};
@@ -54,6 +54,7 @@ public class MyPanel extends JPanel {
         timeTextField = new JTextField (5);
         showResultsButton = new JButton ("Show Results");
         querySelectionLabel = new JLabel ("Query Selection");
+        rightclickLabel = new JLabel("Right Click for Description");
         optimizationTypeLabel = new JLabel ("Optimization Type");
         sqlQueryLabel = new JLabel ("SQL Query");
         editButton = new JButton ("Edit");
@@ -68,6 +69,7 @@ public class MyPanel extends JPanel {
 
         //add components
         add (querySelectionJList);
+        add (rightclickLabel);
         add (optimizationTypeJList);
         add (sqlQueryTextArea);
         add (executeButton);
@@ -86,6 +88,7 @@ public class MyPanel extends JPanel {
         timeTextField.setBounds (885, 480, 170, 50);
         showResultsButton.setBounds (1065, 480, 155, 50);
         querySelectionLabel.setBounds (120, 20, 100, 25);
+        rightclickLabel.setBounds(100, 25, 150, 50);
         optimizationTypeLabel.setBounds (450, 15, 115, 35);
         sqlQueryLabel.setBounds (910, 15, 95, 30);
         editButton.setBounds (1135, 30, 75, 25);
@@ -113,9 +116,59 @@ public class MyPanel extends JPanel {
                 public void actionPerformed(ActionEvent e)
                 {
                    if(!(sqlQueryTextArea.getText().toString().isEmpty()))
-                   {
-                       long execTime = c.DisplayExecTime(sqlQueryTextArea.getText().toString());
-                       timeTextField.setText(String.valueOf(execTime)+ " ms");
+                   {    
+                       if(querySelectionJList.getSelectedIndex()!= 0 && optimizationTypeJList.getSelectedIndex()== 2 && optimizationTypeJList.getSelectedIndex()!= -1){
+                           
+                           //System.out.println(queryList.get(querySelectionJList.getSelectedIndex()-1).getPreQuery());
+                           
+                           if(querySelectionJList.getSelectedIndex()!= 6 && querySelectionJList.getSelectedIndex()!= 7){
+                               System.out.println("with post query here");
+                                JOptionPane.showMessageDialog(new JFrame(),
+                               "The following pre query will be executed \n Pre Query: "+queryList.get(querySelectionJList.getSelectedIndex()-1).getPreQuery());
+                             c.DBPreQuery(queryList.get(querySelectionJList.getSelectedIndex()-1).getPreQuery());
+                               JOptionPane.showMessageDialog(new JFrame(),
+                               "Execution of pre query done. Executing query... ");
+                               
+                             long execTime = c.DisplayExecTime(sqlQueryTextArea.getText().toString());
+                             timeTextField.setText(String.valueOf(execTime)+ " ms");
+
+                             JOptionPane.showMessageDialog(new JFrame(),
+                               "Execution of query done. The following post query will be executed \n Post Query: "+queryList.get(querySelectionJList.getSelectedIndex()-1).getPostQuery());
+                             c.DBPostQuery(queryList.get(querySelectionJList.getSelectedIndex()-1).getPostQuery());
+                             JOptionPane.showMessageDialog(new JFrame(),
+                               "Execution of post query done.");
+                           }
+                           else {
+                                JOptionPane.showMessageDialog(new JFrame(),
+                               "Indexing of primary keys done by MySQL");
+                                long execTime = c.DisplayExecTime(sqlQueryTextArea.getText().toString());
+                                timeTextField.setText(String.valueOf(execTime)+ " ms");
+                           }
+        
+                       }
+                       else if(querySelectionJList.getSelectedIndex()!= 0 && optimizationTypeJList.getSelectedIndex()!= 0 && optimizationTypeJList.getSelectedIndex()!= 3 && optimizationTypeJList.getSelectedIndex()!= -1){
+                           System.out.println("Right here");
+                           System.out.println(queryList.get(querySelectionJList.getSelectedIndex()-1).getPreQuery());
+                          JOptionPane.showMessageDialog(new JFrame(),
+                             "The following pre query will be executed \n Pre Query: "+queryList.get(querySelectionJList.getSelectedIndex()-1).getPreQuery());
+                           c.DBPreQuery(queryList.get(querySelectionJList.getSelectedIndex()-1).getPreQuery());
+                           JOptionPane.showMessageDialog(new JFrame(),
+                               "Execution of pre query done. Executing query... ");
+                           
+                           long execTime = c.DisplayExecTime(sqlQueryTextArea.getText().toString());
+                           timeTextField.setText(String.valueOf(execTime)+ " ms");
+                       }
+                       else if (querySelectionJList.getSelectedIndex()!= 0){
+                           
+                           long execTime = c.DisplayExecTime(sqlQueryTextArea.getText().toString());
+                           timeTextField.setText(String.valueOf(execTime)+ " ms");
+                       }
+                        else if (querySelectionJList.getSelectedIndex()== 0){
+                           
+                           long execTime = c.DisplayExecTime(sqlQueryTextArea.getText().toString());
+                           timeTextField.setText(String.valueOf(execTime)+ " ms");
+                       }
+                       
                    } 
                    else
                     System.out.print(sqlQueryTextArea.getText().toString()+"empty");
@@ -151,7 +204,10 @@ public class MyPanel extends JPanel {
                 if (!lse.getValueIsAdjusting()) {
                     if(querySelectionJList.getSelectedIndex() != -1 && querySelectionJList.getSelectedIndex() != 0)
                     {
-                    queryList.get(querySelectionJList.getSelectedIndex()-1).setOpt(optimizationTypeJList.getSelectedIndex(),querySelectionJList.getSelectedIndex()-1);
+                    System.out.println("preQ changed");
+                    System.out.println("opt " + optimizationTypeJList.getSelectedIndex());
+                    System.out.println("query " + querySelectionJList.getSelectedIndex());
+                    queryList.get(querySelectionJList.getSelectedIndex()-1).setOpt(optimizationTypeJList.getSelectedIndex(),querySelectionJList.getSelectedIndex());
                     sqlQueryTextArea.setEditable(false);
                     sqlQueryTextArea.setText(queryList.get(querySelectionJList.getSelectedIndex()-1).getQuery());
                     }

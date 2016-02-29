@@ -134,6 +134,19 @@ public class Controller
         return this.queryList;
     }
     
+    public void DBPreQuery(String pq)
+    {
+        System.out.println("Executing preQuery...");
+        db.execPreQuery(pq);
+        System.out.print("Executing preQuery done");
+    }
+    public void DBPostQuery(String pq)
+    {
+        System.out.println("Executing postQuery...");
+        db.execPostQuery(pq);
+        System.out.print("Executing postQuery done");
+    }
+    
     /*public ArrayList<Query> getDummyQueries() // DUMMY
     {
         Query q1 = new Query("DESCRIPTION 1", 
